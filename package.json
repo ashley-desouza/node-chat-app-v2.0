@@ -4,7 +4,11 @@
   "description": "A new version of a chat app using NodeJS and Web Scokets",
   "main": "index.js",
   "scripts": {
+    "start": "node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "6.9.2"
   },
   "author": "Ashley DeSouza",
   "license": "ISC",
