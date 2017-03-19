@@ -23,8 +23,23 @@ var io = socketIO(server);
 io.on('connection', socket => {
 	console.log('User connected');
 
+	socket.emit('newMessage', {
+		from: 'Admin',
+		text: 'Welcome new user',
+		createdAt: new Date().getTime()
+	});
+	
+	// Broadcast the new message to all users except the originator.
+	socket.broadcast.emit('newMessage', {
+		from: 'Admin',
+		text: 'New user joined',
+		createdAt: new Date().getTime()		
+	})
+
+
 	socket.on('createMessage', message => {
-		socket.broadcast.emit('newMessage', {
+		// Broadcast the new message to all users including the originator.
+		io.emit('newMessage', {
 			from: message.from,
 			text: message.text,
 			createdAt: new Date().getTime()
