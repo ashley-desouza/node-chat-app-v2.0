@@ -2,7 +2,7 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
-
+const {generateMessage} = require('./utils/message');
 // Path to the public client assets
 // Refer https://nodejs.org/dist/latest-v6.x/docs/api/path.html#path_path_join_paths
 const publicPath = path.join(__dirname, '../public');
@@ -23,27 +23,15 @@ var io = socketIO(server);
 io.on('connection', socket => {
 	console.log('User connected');
 
-	socket.emit('newMessage', {
-		from: 'Admin',
-		text: 'Welcome new user',
-		createdAt: new Date().getTime()
-	});
+	socket.emit('newMessage', generateMessage('Admin', 'Welcome new user'));
 	
 	// Broadcast the new message to all users except the originator.
-	socket.broadcast.emit('newMessage', {
-		from: 'Admin',
-		text: 'New user joined',
-		createdAt: new Date().getTime()		
-	})
+	socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
 
 
 	socket.on('createMessage', message => {
 		// Broadcast the new message to all users including the originator.
-		io.emit('newMessage', {
-			from: message.from,
-			text: message.text,
-			createdAt: new Date().getTime()
-		});
+		io.emit('newMessage', generateMessage(message.from, message.text));
 	});
 
 	io.on('disconnect', () => {

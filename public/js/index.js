@@ -2,12 +2,12 @@
 // This method is available when we import the socket.io library
 var socket = io();
 
-socket.on('connect', function (message) {
-	socket.emit('createMessage', {
-		from: 'ABCD',
-		text: 'Hello there!'
-	});
-});
+// socket.on('connect', function (message) {
+// 	socket.emit('createMessage', {
+// 		from: 'ABCD',
+// 		text: 'Hello there!'
+// 	});
+// });
 
 socket.on('disconnect', function () {
 	console.log('Disconnected from server');
