@@ -2,7 +2,7 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
-const {generateMessage} = require('./utils/message');
+const {generateMessage, generateLocationMessage} = require('./utils/message');
 // Path to the public client assets
 // Refer https://nodejs.org/dist/latest-v6.x/docs/api/path.html#path_path_join_paths
 const publicPath = path.join(__dirname, '../public');
@@ -33,6 +33,11 @@ io.on('connection', socket => {
 		// Broadcast the new message to all users including the originator.
 		io.emit('newMessage', generateMessage(message.from, message.text));
 		callback();
+	});
+
+	socket.on('createNewLocationMessage', message => {
+		// Broadcast the new message to all users including the originator.
+		io.emit('newLocationMessage', generateLocationMessage(message.from, message.latitude, message.longitude));
 	});
 
 	io.on('disconnect', () => {
