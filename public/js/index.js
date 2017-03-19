@@ -33,18 +33,20 @@ socket.on('newLocationMessage', function (message) {
 });
 
 jQuery('#chat-form').on('submit', function (err) {
+	var messageTextbox = jQuery('#message');
 	err.preventDefault();
 
 	socket.emit('createMessage', {
 		from: 'Anon',
-		text: jQuery('#message').val()
+		text: messageTextbox.val()
 	}, function (data) {
-		jQuery('#message').val('');
+		messageTextbox.val('');
 		console.log('Acknowledged!');
 	});
 });
 
-jQuery('#send-location').on('click', function () {
+var sendLocationButton = jQuery('#send-location')
+sendLocationButton.on('click', function () {
 	// Refer - https://developer.mozilla.org/en-US/docs/Web/API/Geolocation
 
 	// Check if the user's browser has the geolocation property implemented by the Navigator object
@@ -52,8 +54,14 @@ jQuery('#send-location').on('click', function () {
 		return alert('Geolocation is not enabled on your browser');
 	}
 
+	// Disable the 'Send My Location' button while processing is ongoing
+	sendLocationButton.attr('disabled', 'disabled').text('Sending location...');
+
 	// Refer - https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition
 	navigator.geolocation.getCurrentPosition(function (position) {
+		// Enable the 'Send My Location' button after we successfully receive the user position
+		sendLocationButton.removeAttr('disabled').text('Send My Location');
+
 		let latitude = position.coords.latitude;
 		let longitude = position.coords.longitude;
 
@@ -63,6 +71,8 @@ jQuery('#send-location').on('click', function () {
 			longitude
 		});
 	}, function (err) {
+		// Enable the 'Send My Location' button after there is a failure in retrieving the user's location
+		sendLocationButton.removeAttr('disabled').text('Send My Location');
 		console.warn(`ERROR(${err.code}): ${err.message}`);
 	});
 

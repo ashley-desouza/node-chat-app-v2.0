@@ -3,16 +3,28 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+		<link rel="stylesheet" href="/css/styles.css">
 	</head>
-	<body>
-		<p> Welcome to the Chat App version 2.0</p>
+	<body class="chat">
+		<div class="chat__sidebar">
+			<h3>People</h3>
 
-		<ul id="message-list"></ul>
-		<form id="chat-form">
-			<input id="message" name="message" type="text" placeholder="Type here..." />
-			<button>Send</button>
-		</form>
-		<button id="send-location">Send My Location</button>
+			<div id="users"></div>
+		</div>
+
+		<div class="chat__main">
+			<ul id="message-list" class="chat__messages"></ul>
+
+			<div class="chat__footer">
+				<form id="chat-form">
+					<input id="message" name="message" type="text" autofocus autocomplete="off" placeholder="Type here..." />
+					<button>Send</button>
+				</form>
+				<button id="send-location">Send My Location</button>
+			</div>
+		</div>
+
+
 	</body>
 
 	<!-- We can access the socket.io library from the socket.io npm module we imported. 
