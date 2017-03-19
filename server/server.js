@@ -29,9 +29,10 @@ io.on('connection', socket => {
 	socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
 
 
-	socket.on('createMessage', message => {
+	socket.on('createMessage', (message, callback) => {
 		// Broadcast the new message to all users including the originator.
 		io.emit('newMessage', generateMessage(message.from, message.text));
+		callback();
 	});
 
 	io.on('disconnect', () => {

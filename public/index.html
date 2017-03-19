@@ -6,11 +6,19 @@
 	</head>
 	<body>
 		<p> Welcome to the Chat App version 2.0</p>
+
+		<ul id="message-list"></ul>
+		<form id="chat-form">
+			<input id="message" name="message" type="text" placeholder="Type here..." />
+			<button>Send</button>
+
+		</form>
 	</body>
 
 	<!-- We can access the socket.io library from the socket.io npm module we imported. 
 		 We can view the library in the browser by navigating to http://localhost:3000/socket.io/socket.io.js
 	-->
 	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<script src="/js/index.js"></script>
 </html>
