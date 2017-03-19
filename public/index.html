@@ -7,4 +7,23 @@
 	<body>
 		<p> Welcome to the Chat App version 2.0</p>
 	</body>
+
+	<!-- We can access the socket.io library from the socket.io npm module we imported. 
+		 We can view the library in the browser by navigating to http://localhost:3000/socket.io/socket.io.js
+	-->
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		// We initiate a connection by using the io() method. This connection is a persistent connection.
+		// This method is available when we import the socket.io library
+		var socket = io();
+
+		socket.emit('createMessage', {
+			from: 'ABCD',
+			text: 'Hello there!'
+		});
+
+		socket.on('newMessage', function (message) {
+			console.log('newMessage: ', message);
+		});
+	</script>
 </html>
