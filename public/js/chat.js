@@ -2,6 +2,24 @@
 // This method is available when we import the socket.io library
 var socket = io();
 
+// Function to scroll to the bottom of the message-list
+function scrollToBottom() {
+	// Selectors
+	var messageList = jQuery('#message-list');
+	var currMessage = messageList.children('li:last-child');
+
+	// Heights
+	var scrollHeight = messageList.prop('scrollHeight');
+	var clientHeight = messageList.prop('clientHeight');
+	var scrollTop = messageList.prop('scrollTop');
+	var currMessageHeight = currMessage.innerHeight();
+	var prevMessageHeight = currMessage.prev().innerHeight();
+
+	if (clientHeight + scrollTop + currMessageHeight + prevMessageHeight >= scrollHeight) {
+		messageList.scrollTop(scrollHeight);
+	}
+}
+
 socket.on('connect', function (message) {
 	console.log('Connected to server');
 });
@@ -20,6 +38,7 @@ socket.on('newMessage', function (message) {
 		createdAt: formattedTime
 	});
 	jQuery('#message-list').append(html);
+	scrollToBottom();
 });
 
 socket.on('newLocationMessage', function (message) {
@@ -32,6 +51,7 @@ socket.on('newLocationMessage', function (message) {
 		createdAt: formattedTime
 	});
 	jQuery('#message-list').append(html);
+	scrollToBottom();
 	
 	// var li = jQuery('<li></li>');
 	// var a = jQuery('<a>Where Am I?</a>');

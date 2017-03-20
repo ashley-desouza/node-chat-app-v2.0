@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>ChatApp</title>
+		<link rel="stylesheet" href="/css/styles.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	</head>
+	<body class="chat">
+		<div class="chat__sidebar">
+			<h3>People</h3>
+
+			<div id="users"></div>
+		</div>
+
+		<div class="chat__main">
+			<ul id="message-list" class="chat__messages"></ul>
+
+			<div class="chat__footer">
+				<form id="chat-form">
+					<input id="message" name="message" type="text" autofocus autocomplete="off" placeholder="Type here..." />
+					<button>Send</button>
+				</form>
+				<button id="send-location">Send My Location</button>
+			</div>
+		</div>
+
+		<script id="message-template" type="text/template">
+			<li class="message">
+				<div class="message__title">
+					<h4>{{from}}</h4>
+					<span>{{createdAt}}</span>
+				</div>
+				<div class="message__body">
+					<p>{{text}}</p>
+				</div>
+			</li>
+		</script>
+
+		<script id="location-message-template" type="text/template">
+			<li class="message">
+				<div class="message__title">
+					<h4>{{from}}</h4>
+					<span>{{createdAt}}</span>
+				</div>
+				<div class="message__body">
+					<p>
+						<a href={{url}} target="_blank">Where am I?</a>
+					</p>
+				</div>
+			</li>
+		</script>
+
+	</body>
+
+	<!-- We can access the socket.io library from the socket.io npm module we imported. 
+		 We can view the library in the browser by navigating to http://localhost:3000/socket.io/socket.io.js
+	-->
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+	<script src="/js/chat.js"></script>
+</html>
