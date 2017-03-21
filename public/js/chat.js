@@ -21,7 +21,41 @@ function scrollToBottom() {
 }
 
 socket.on('connect', function (message) {
+	// IMP: Refer - https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
+	var urlParams = new URLSearchParams(window.location.search);
+	var params = {};
+
+	// IMP: Refer - https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/entries
+	for (var pair of urlParams) {
+		params[pair[0]] = pair[1];
+	}
+
+	socket.emit('joinRoom', params, function (err) {
+		// The acknowledgement callback takes 1 parameter - The error message
+		// If there was an error on the backend in processing the request, then re-direct the user back to the home page.
+		if (err) {
+			alert(err);
+			window.location.href = '/';
+		}
+	});
+
 	console.log('Connected to server');
+});
+
+// Listener for updating the People Listener
+socket.on('updateUserList', function (usersList) {
+	var users = jQuery('#users');
+
+	// Add an ordered List to hold the list of connected users
+	var ol = jQuery('<ol></ol>');
+	
+	usersList.forEach(user => {
+		// Add each user from the returned list as a list item
+		ol.append(`<li>${user.username}</li>`);
+	});
+
+	// Use the html() method because we would like to completely wipe out the old People List
+	users.html(ol);
 });
 
 socket.on('disconnect', function () {
