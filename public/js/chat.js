@@ -102,7 +102,6 @@ jQuery('#chat-form').on('submit', function (err) {
 	err.preventDefault();
 
 	socket.emit('createMessage', {
-		from: 'Anon',
 		text: messageTextbox.val()
 	}, function (data) {
 		messageTextbox.val('');

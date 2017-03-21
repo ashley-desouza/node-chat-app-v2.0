@@ -56,14 +56,18 @@ io.on('connection', socket => {
 	});
 
 	socket.on('createMessage', (message, callback) => {
-		// Broadcast the new message to all users including the originator.
-		io.emit('newMessage', generateMessage(message.from, message.text));
+		let user = newUser.getUser(socket.id);
+
+		// Broadcast the new message to all users in the same room including the originator.
+		io.to(user.room).emit('newMessage', generateMessage(user.username, message.text));
 		callback();
 	});
 
 	socket.on('createNewLocationMessage', message => {
+		let user = newUser.getUser(socket.id);
+
 		// Broadcast the new message to all users including the originator.
-		io.emit('newLocationMessage', generateLocationMessage(message.from, message.latitude, message.longitude));
+		io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.username, message.latitude, message.longitude));
 	});
 
 	socket.on('disconnect', () => {
